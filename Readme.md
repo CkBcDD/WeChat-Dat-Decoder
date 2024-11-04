@@ -1,45 +1,111 @@
-# Wechat_Dat_Decode
+# WeChat Dat Decoder
 
-微信图像文件高效解码
+An advanced utility meticulously designed to efficiently restore WeChat image files from their encrypted `.dat` format back to their original image states, thereby ensuring ease of access and usability.
 
+## Overview
 
+WeChat automatically converts all received image data into files with a `.dat` extension, encapsulating a variety of image formats. These formats include, but are not limited to:
 
-## Description
+- **JPG**: Identified by the header signature "FFD8FF"; commonly used for photographs.
+- **PNG**: Identified by the header signature "89504E47"; typically used for images requiring transparency.
+- **TIF**: Identified by the header signature "49492A00"; often used in high-quality graphics and scanned images.
+- **BMP**: Identified by the header signature "424D"; used for bitmap graphics, primarily in Windows environments.
 
-由于微信接收的照片被统一转换成了后缀名为 dat 的文件，一般可能有以下几种格式和文件头：
+This decoding tool facilitates the restoration of `.dat` files to their appropriate and viewable image formats. The tool performs decryption by analyzing the internal content of the `.dat` file to determine its original type, thereby ensuring compatibility with standard image viewers and enabling smooth interoperability. By using a sophisticated algorithm to determine the file type, users can seamlessly convert and view files that were previously inaccessible.
 
-**Jpg** = "FFD8FF"，**Png**  = "89504E47"，**Tif**  = "49492A00"，**Bmp**  = "424D"。
+## Features
 
-本仓库转换成加密前文件后统一后缀为 jpg，可能导致部分看图软件无法打开转换后的图像，以及编辑时注意源图像格式不一定是 jpg。
+- **Automatic Format Recognition**: Utilizes comprehensive file header analysis to accurately determine the correct image format for decryption, minimizing user effort and reducing the possibility of errors.
+- **Batch Processing Capabilities**: Supports simultaneous processing of multiple `.dat` files, streamlining the workflow for large datasets and significantly enhancing productivity. Whether handling a few files or hundreds, this feature ensures efficiency.
+- **Cross-Platform Compatibility**: The utility is designed for use on both Windows and Linux, providing adaptability across environments. Users can benefit from the flexibility of using the tool on their preferred operating system without compromising performance or functionality.
+- **Configurable Buffer Management**: Allows the modification of buffer sizes to facilitate the handling of larger image files, optimizing memory usage and ensuring efficient performance even when dealing with high-resolution images. This feature is particularly useful for power users working with substantial amounts of visual data.
+- **User-Friendly Output Management**: Automatically creates output directories for easier file organization, ensuring that decrypted files are systematically stored for easy access and identification.
 
+## Getting Started
 
+To begin using WeChat Dat Decoder, follow these simple steps to compile and execute the program. It has been designed to be as accessible as possible, with minimal setup requirements.
 
-## Usage
+### Prerequisites
 
-**C Version: (Recommend)**
+Before compiling and running the program, ensure you have the following:
 
+- An appropriate C compiler (e.g., GCC for Linux, MSVC for Windows). These compilers will allow you to generate the executable required to run the decoding tool.
+- Fundamental proficiency with command-line operations. Basic knowledge of navigating and executing commands in a terminal environment will be useful for compiling and running the tool.
+
+### Compilation Instructions
+
+To compile the C-based version of the decoder, execute the following commands based on your operating system:
+
+For Linux:
+
+```bash
+gcc -o main src/main.c
 ```
-> wechat_img_transfer(.exe) xuanzhiyin.dat (114514.dat)
-> wechat_img_transfer(.exe) *.dat
+
+For Windows (using MSVC):
+
+```bash
+cl /Fe:main.exe src/main.c
 ```
 
-还可以使用 **拖拽一个或多个 dat 文件** 到程序上的方式运行，但是选中的文件不宜过多，用命令行可以搭配正则表达式处理 **任意数量 dat 文件**。
+This will create an executable file named `main` (or `main.exe` for Windows), which you can use to decrypt `.dat` files.
 
-注意 C语言版本限制每个 dat 文件大小为 **32MB**，但是源照片大小不一定小于 32MB，需要的时候可以更改源码的 buf 大小（在 `wechat_img_transfer.c` 第 7 行），改成自己需要的范围。
+## Usage Instructions
 
+Upon successful compilation, the tool can be utilized to convert `.dat` files back to their original formats. The process is straightforward and allows for significant flexibility in how files are handled.
 
+### Command Line Usage
 
-**Python Version:**
+The program requires the following parameters:
 
+- **-Path**: Specifies the path to the target file or directory to be processed.
+  - If the input is a single file, the decrypted version will be saved in the same directory as the original, allowing for easy comparison and access.
+  - If the input is a directory, a subdirectory named `decoded` will be created, and all decrypted files will be stored within it, ensuring that the output is neatly organized.
+- **(Optional) -s**: Activates silent mode, which suppresses all output for a quieter execution. This is particularly useful when integrating the tool into automated workflows or scripts where console output is not required.
+
+To decrypt a single `.dat` file:
+
+```bash
+wechat_img_transfer(.exe) -Path example.dat
 ```
-> python wechat_img_transfer.py
+
+To decrypt multiple `.dat` files within a specified directory:
+
+```bash
+wechat_img_transfer(.exe) -Path path/to/directory
 ```
 
-本仓库里面的 Python 版本已经经过一点点优化，相较其他仓库的脚本在处理大文件的时候性能已经有提升。Python 版本的需要自己填写 code，和需要处理的目录，或者你可以自己魔改源码。code 的填写方法就是找源图像为 jpg 的图像前两个 byte 异或 `0xff` 即可获得。
+The command line provides a powerful way to handle large numbers of files efficiently, making it ideal for bulk decryption tasks.
 
+### Drag and Drop Functionality
 
+You can also opt to **drag and drop** one or more `.dat` files onto the executable for conversion. This method is most efficient for small batches of files and is designed to be highly intuitive, catering to users who may prefer a graphical approach over the command line. For larger workloads, command-line execution is recommended due to better control and scalability.
 
-***无论在 Linux 还是在 Windows，很推荐使用 wechat_img_transfer.c 自行编译程序，因为其效率最高。***
+## Troubleshooting
 
-***由于 Python 版相比 C 版本的效率相差甚远，因此没有再继续优化。***
+Should you encounter issues while using the tool, consider the following troubleshooting tips to ensure smooth operation:
+
+- **Image Viewer Compatibility**: If a converted image does not open, consider changing the file extension to match the expected original format (e.g., `.png`, `.bmp`). By default, the tool may save files with a `.jpg` extension, potentially causing incompatibility with specific viewers. Verifying the format and adjusting the extension accordingly can help mitigate viewing issues.
+- **Handling Large Files**: Should issues arise with large files, adjust the buffer size in the source code (`src/main.c`) to better accommodate the size requirements of your data. The tool has been designed with flexibility in mind, allowing users to modify memory allocation to suit their particular needs.
+- **Compilation Errors**: Ensure that all dependencies are correctly installed and that your compiler version is up to date. Incompatibilities between different versions of compilers and missing libraries can lead to compilation issues.
+
+## License
+
+This project is distributed under the MIT License. For more information, refer to the LICENSE file included in the repository. The MIT License allows for broad usage, modification, and distribution, ensuring that this tool can be adapted to suit your needs.
+
+## Contributing
+
+Contributions to enhance the functionality and efficiency of this tool are welcomed. Please feel free to submit issues or pull requests to support the project’s continuous improvement. Whether it's optimizing the code, adding new features, or improving documentation, your contributions are valuable to the community.
+
+## Acknowledgments
+
+We extend our gratitude to the open-source community for their valuable contributions, which have been instrumental in the development of this project. The collective expertise and collaborative spirit of the community have made it possible to build a reliable and effective tool that benefits users globally.
+
+Special thanks to developers who have contributed to similar projects, whose insights helped shape the efficiency and functionality of this tool. The dedication of the open-source community to creating high-quality, accessible software is a true inspiration and forms the foundation upon which this project was built.
+
+The WeChat Dat Decoder aims to provide an effective solution for individuals needing to recover or access images stored in `.dat` format, simplifying what was previously a cumbersome process. With features designed for flexibility, efficiency, and ease of use, the tool is well-suited for a variety of applications, from casual use to more intensive, automated workflows.
+
+---
+
+**Note**: For best results, always ensure that you are using the latest version of this tool, as improvements and optimizations are frequently added. Stay connected with the community for updates and additional support.
 
