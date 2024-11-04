@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(WechatDatDecode VERSION 1.0.0)
 
-set(CMAKE_C_STANDARD 16)
+set(CMAKE_C_STANDARD 11)
 
 if(UNIX)
     add_definitions(-D_FILE_OFFSET_BITS=64)
