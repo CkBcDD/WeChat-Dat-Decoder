@@ -44,17 +44,19 @@ cl /Fe:main.exe src/main.c
 
 执行后会生成转换程序（Linux是main，Windows是main.exe）
 
-## 使用方法
+## 使用方法   （以Windows为例，与Linux的唯一区别是程序名称后缀）
 
 ### 转换单个文件
 ```bash
-wechat_img_transfer.exe -Path 你的文件.dat
+main.exe -Path 你的文件.dat
 ```
 
 ### 转换整个文件夹
 ```bash
-wechat_img_transfer.exe -Path 你的文件夹路径
+main.exe -Path 你的\文件夹\路径
 ```
+
+**请注意，main.exe需要与待转换文件处于同一个文件夹下**
 
 转换后的图片会存在原文件夹的"decoded"子文件夹里
 
